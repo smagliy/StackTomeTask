@@ -37,16 +37,10 @@ class TrafficParser(listDomains: List[String]) {
   }
 
   def lookForTraffic(document: Document): Int = {
-    try {
-      LogService.logger.info("Trying to get monthly visits from site")
-      val elements = serviceXpath.getElementsFromXpath(XpathConfig.xpathForTrafiic,document)
-      val monthlyVisits = serviceXpath.getAttributeFromElements(elements,
-        "span", "data-datum").head.toInt
-      monthlyVisits
-    } catch {
-      case e: Exception =>
-        LogService.logger.info("Information about monthly visits aren't have in the site")
-        0
-    }
+    LogService.logger.info("Trying to get monthly visits from site")
+    val elements = serviceXpath.getElementsFromXpath(XpathConfig.xpathForTrafiic, document)
+    val monthlyVisits = serviceXpath.getAttributeFromElements(elements,
+      "span", "data-datum")
+    if (monthlyVisits.isEmpty) 0 else monthlyVisits.head.toInt
   }
 }
