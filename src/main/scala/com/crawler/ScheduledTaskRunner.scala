@@ -3,6 +3,7 @@ package com.crawler
 import java.util.concurrent.{Executors, ScheduledExecutorService, TimeUnit}
 
 import com.crawler.services.CrawlerPipeline
+import com.crawler.services.log.LogService
 
 
 object ScheduledTaskRunner {
@@ -11,7 +12,7 @@ object ScheduledTaskRunner {
     val task: Runnable = new Runnable {
       def run(): Unit = {
         CrawlerPipeline.sortedListOfCompanies
-        println("Task is running...")
+        LogService.logger.info("The updates for all files will be completed within 5 minutes...")
       }
     }
     val initialDelay = 0
