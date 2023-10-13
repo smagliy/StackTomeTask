@@ -11,7 +11,7 @@ import com.crawler.models._
 import com.crawler.services.log.LogService
 import com.crawler.services.write.utils.FilesService
 
-object CSVWriteService {
+object CSVWriter {
   implicit val formats: Formats = DefaultFormats
   private val csvFormat = CSVFormat.DEFAULT.withHeader("priority","id","name","ranks",
     "domain","reviews","categories","latest_review","latest_reviews_count","monthly_visits")
