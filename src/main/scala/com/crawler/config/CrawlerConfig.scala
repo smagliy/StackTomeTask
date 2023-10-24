@@ -10,7 +10,6 @@ object CrawlerConfig {
   val sortByCompanies = "?sort=latest_review"
   val sortByLatestReviews = "/reviews?locale=en-US"
 
-  val pathToReportCompaniesFiles = "./results/companies/"
   val pathToSortInfoAboutCompaniesGeneral = "./results/sort/sort_by_reviews_and_traffic.csv"
 }
 
