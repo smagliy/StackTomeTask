@@ -15,15 +15,15 @@ object CrawlerPipeline {
   private def generateFutureListOfTasks(listCategories: List[Categories]): Future[List[List[Companies]]] ={
     val listFuturesResult: List[Future[List[Companies]]] = listCategories.map { category =>
       Future {
-        val result = new CompaniesParser(XpathConfig.xpathForCompanies, category).parse(Option(XpathConfig.extraXpathForCompanies))
-        val pathToFile = CrawlerConfig.pathToReportCompaniesFiles + result.head.categories.name + ".csv"
-        CSVWriter.writeCompaniesToCsv(result, pathToFile)
+        val result = new CompaniesParser(XpathConfig.xpathForCompanies, category)
+          .parse(Option(XpathConfig.extraXpathForCompanies))
         result
       }
     }
     Future.sequence(listFuturesResult)
   }
-  private def parseGeneralListOfCompanies: List[Companies] = {
+
+  def parseGeneralListOfCompanies: List[Companies] = {
     LogService.logger.info("Starting parse all of the pages that we're using")
 
     val listCategories = new CategoriesParser(CrawlerConfig.urlCategories, XpathConfig.xpathForCategories).parse()
@@ -33,8 +33,7 @@ object CrawlerPipeline {
     Await.result(listCompaniesFuture, Duration.Inf)
   }
 
-  def sortedListOfCompanies: Unit = {
-    val listOfCompanies = parseGeneralListOfCompanies
+  def sortAndWriteListOfCompanies(listOfCompanies: List[Companies]): Unit = {
     val sortedInfo = SortCompanies.sortCompaniesByReviewsAndTraffic(listOfCompanies)
     CSVWriter.writeCompaniesToCsv(sortedInfo, CrawlerConfig.pathToSortInfoAboutCompaniesGeneral)
   }

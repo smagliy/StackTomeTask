@@ -24,11 +24,12 @@ class CompaniesParser(mainXPath: String, categories: Categories)  {
     val IDs = matchIDs(elements)
     val latestReviews = new LatestReviewsParser(IDs).parse()
     val listInfoAboutCompanies = matchInfoAboutCompany(extraXpath.getOrElse(""))
+    println(categories.href + CrawlerConfig.sortByCompanies)
     listInfoAboutCompanies.zip(domains).zip(IDs).zip(latestReviews).zip(traffic).map {
       case ((((aboutCompanies, domainName), id), latestReviews), traffic) =>
         Companies(aboutCompanies.head.toInt, id, aboutCompanies(1),
-          aboutCompanies(2).toDouble, domainName, aboutCompanies(3),
-          categories, latestReviews, traffic)
+          if (aboutCompanies(2).nonEmpty) aboutCompanies(2).toDouble else 0.0,
+          domainName, aboutCompanies(3), categories, latestReviews, traffic)
     }
   }
 

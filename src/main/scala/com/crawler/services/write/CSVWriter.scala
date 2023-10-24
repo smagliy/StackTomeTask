@@ -26,7 +26,7 @@ object CSVWriter {
       companies.foreach { company =>
         csvPrinter.printRecord(company.priority, company.id, company.name, company.ranks,
           company.domain, company.reviews, company.categories.name, write(company.latestReviews.latestReview),
-          company.latestReviews.latestReviewCount, company.monthlyVisits)
+          company.latestReviews.listOfCommenterIDs.size, company.monthlyVisits)
       }
     } finally {
       fileWriter.close()
