@@ -13,7 +13,7 @@ object Main {
   import scala.concurrent.ExecutionContext.Implicits.global
 
   private val crawler = CrawlerPipeline
-  private var companiesList: List[Companies] = crawler.parseGeneralListOfCompanies
+  private var companiesList: List[Companies] = crawler.parseGeneralListOfCompanies.distinctBy(_.id)
   private val modelUpdater = new CompanyUpdater
 
   private def generateFutureList: Future[List[Companies]] = {
@@ -30,11 +30,12 @@ object Main {
       Thread.sleep(5.minutes.toMillis)
       generateFutureList.onComplete {
         case Success(updatedCompanies) =>
-          companiesList = updatedCompanies.distinct
+          companiesList = updatedCompanies.distinctBy(_.id)
           crawler.sortAndWriteListOfCompanies(companiesList)
         case Failure(exception) =>
           LogService.logger.error("Error during company updates: " + exception.getMessage)
       }
+      LogService.logger.info("done...")
     }
   }
 }
