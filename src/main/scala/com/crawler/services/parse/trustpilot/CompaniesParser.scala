@@ -43,7 +43,7 @@ class CompaniesParser(mainXPath: String, categories: Categories)  {
   private def matchIDs(elements: Elements): List[String] ={
     LogService.logger.info("Searching for IDs on the web")
     val extractedIDs: List[Option[String]] = serviceXpath.getAttributeFromElements(elements,
-        "source[srcset]", "srcset").take(CrawlerConfig.limitRecords)
+        "img.business-profile-image_image__jCBDc", "src").take(CrawlerConfig.limitRecords)
       .map { input => extractor.extract(RegexConfig.idPattern, input) }
     extractedIDs.flatten
   }
