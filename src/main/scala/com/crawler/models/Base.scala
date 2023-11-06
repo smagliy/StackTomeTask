@@ -1,3 +1,5 @@
 package com.crawler.models
 
-trait Base
+trait Base {
+  def updateLatestReview(updaterLatestReviews: LatestReviews): Base
+}
