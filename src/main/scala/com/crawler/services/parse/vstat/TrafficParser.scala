@@ -36,7 +36,7 @@ class TrafficParser(listDomains: List[String]) {
     trafficResults
   }
 
-  def lookForTraffic(document: Document): Int = {
+  private def lookForTraffic(document: Document): Int = {
     LogService.logger.info("Trying to get monthly visits from site")
     val elements = serviceXpath.getElementsFromXpath(XpathConfig.xpathForTrafiic, document)
     val monthlyVisits = serviceXpath.getAttributeFromElements(elements,
